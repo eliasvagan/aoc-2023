@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import fs from 'fs';
 
 // Check if a file path is provided as a command-line argument
 if (process.argv.length < 3) {
@@ -7,7 +7,7 @@ if (process.argv.length < 3) {
 }
 
 // Get the file path from command-line arguments
-const filePath = process.argv[2];
+const filePath = process.argv[2] as fs.PathOrFileDescriptor;
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 const lines = fileContent.split('\n');
 

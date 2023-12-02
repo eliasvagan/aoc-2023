@@ -7,7 +7,7 @@ if (process.argv.length < 3) {
 }
 
 // Get the file path from command-line arguments
-const filePath = process.argv[2];
+const filePath = process.argv[2] as fs.PathOrFileDescriptor;
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 const lines = fileContent.split('\n');
 
@@ -17,9 +17,9 @@ const lines = fileContent.split('\n');
 * @param value 
 * @returns result
 */
-const parseCalibrationValue = (value: string): number => {
-  const numExpStart = /one|two|three|four|five|six|seven|eight|nine|\d/g;
-  const numExpEnd = /(<=$)one|two|three|four|five|six|seven|eight|nine|\d/g;
+export const parseCalibrationValue = (value: string): number => {
+  const numExpStart = /(one|two|three|four|five|six|seven|eight|nine|\d)/;
+  const numExpEnd = /(?:.+)(one|two|three|four|five|six|seven|eight|nine|\d)/;
 
   const replacements = {
     'one': '1',
@@ -34,8 +34,8 @@ const parseCalibrationValue = (value: string): number => {
   };
 
   return Number([
-    value.match(numExpStart)?.at(0) ?? '0',
-    value.match(numExpEnd)?.at(-1) ?? '0',
+    value.match(numExpStart)?.at(1) ?? '0',
+    value.match(numExpEnd)?.at(1) ?? '0',
   ].map((num: string): string => ( 
       replacements[num as keyof typeof replacements] ?? num 
     ))
