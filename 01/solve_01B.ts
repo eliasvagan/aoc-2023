@@ -18,12 +18,8 @@ const lines = fileContent.split('\n');
 * @returns result
 */
 const parseCalibrationValue = (value: string): number => {
-  const numExp = /one|two|three|four|five|six|seven|eight|nine|\d/g;
-  const nums = value.match(numExp);
-
-  if (nums === null) {
-    throw Error(`Parsing error! "${value}" returned no number(s)!`);
-  }
+  const numExpStart = /one|two|three|four|five|six|seven|eight|nine|\d/g;
+  const numExpEnd = /(<=$)one|two|three|four|five|six|seven|eight|nine|\d/g;
 
   const replacements = {
     'one': '1',
@@ -37,23 +33,26 @@ const parseCalibrationValue = (value: string): number => {
     'nine': '9',
   };
 
-  return Number(
-    [nums.at(0), nums.at(-1)]
-      .map(num => replacements[(num as keyof typeof replacements)] ?? num)
-      .join('')
+  return Number([
+    value.match(numExpStart)?.at(0) ?? '0',
+    value.match(numExpEnd)?.at(-1) ?? '0',
+  ].map((num: string): string => ( 
+      replacements[num as keyof typeof replacements] ?? num 
+    ))
+    .join('')
   );
 };
 
-  // UNCOMMENT TO DEBUG
+  // UNCOMMENT TO PRINT TABLE EXPLANATION
   console.table(lines.filter(Boolean).map(v => ({ from: v, to: parseCalibrationValue(v) })));
   
   /*
   ====   Solve   ====
   */
   const solution = lines
-  .filter(Boolean)
-  .map(parseCalibrationValue)
-  .reduce((sum, next) => next + sum, 0)
+    .filter(Boolean)
+    .map(parseCalibrationValue)
+    .reduce((sum, next) => next + sum, 0)
   
   console.log({
     solution
