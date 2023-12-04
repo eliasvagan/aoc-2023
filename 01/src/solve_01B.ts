@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import fs from 'fs';
 import { parseCalibrationValueLexical } from './lib/parseCalibrationValueLexical';
 
 // Check if a file path is provided as a command-line argument
@@ -23,4 +23,3 @@ const solution = lines
 console.log({
   solution
 });
-  

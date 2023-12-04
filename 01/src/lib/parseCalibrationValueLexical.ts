@@ -6,7 +6,7 @@
 */
 export const parseCalibrationValueLexical = (value: string): number => {
   const numExpStart = /(one|two|three|four|five|six|seven|eight|nine|\d)/;
-  const numExpEnd = /(?:.+)(one|two|three|four|five|six|seven|eight|nine|\d)/;
+  const numExpEnd = /.*(one|two|three|four|five|six|seven|eight|nine|\d).*/;
 
   const replacements = {
     'one': '1',
@@ -19,10 +19,10 @@ export const parseCalibrationValueLexical = (value: string): number => {
     'eight': '8',
     'nine': '9',
   };
-  
+
   return Number([
     value.match(numExpStart)?.at(1) ?? 'error',
-    value.match(numExpEnd)?.at(-1) ?? 'error',
+    value.match(numExpEnd)?.at(1) ?? 'error',
   ].map((num: string): string => ( 
       replacements[num as keyof typeof replacements] ?? num 
     ))
