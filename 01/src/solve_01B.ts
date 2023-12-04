@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { parseCalibrationValueLexical } from './lib/parseCalibrationValueLexical';
 
 // Check if a file path is provided as a command-line argument
 if (process.argv.length < 3) {
@@ -12,49 +13,14 @@ const fileContent = fs.readFileSync(filePath, 'utf-8');
 const lines = fileContent.split('\n');
 
 /**
-* Parse numeric value from an elf calibration string
-* 
-* @param value 
-* @returns result
-*/
-export const parseCalibrationValue = (value: string): number => {
-  const numExpStart = /(one|two|three|four|five|six|seven|eight|nine|\d)/;
-  const numExpEnd = /(?:.+)(one|two|three|four|five|six|seven|eight|nine|\d)/;
-
-  const replacements = {
-    'one': '1',
-    'two': '2',
-    'three': '3',
-    'four': '4',
-    'five': '5',
-    'six': '6',
-    'seven': '7',
-    'eight': '8',
-    'nine': '9',
-  };
-
-  return Number([
-    value.match(numExpStart)?.at(1) ?? '0',
-    value.match(numExpEnd)?.at(1) ?? '0',
-  ].map((num: string): string => ( 
-      replacements[num as keyof typeof replacements] ?? num 
-    ))
-    .join('')
-  );
-};
-
-  // UNCOMMENT TO PRINT TABLE EXPLANATION
-  console.table(lines.filter(Boolean).map(v => ({ from: v, to: parseCalibrationValue(v) })));
+ * Solve
+ */
+const solution = lines
+  .filter(Boolean)
+  .map(parseCalibrationValueLexical)
+  .reduce((sum: number, next: number) => next + sum, 0)
   
-  /*
-  ====   Solve   ====
-  */
-  const solution = lines
-    .filter(Boolean)
-    .map(parseCalibrationValue)
-    .reduce((sum, next) => next + sum, 0)
-  
-  console.log({
-    solution
-  });
+console.log({
+  solution
+});
   
