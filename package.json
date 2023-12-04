@@ -1,0 +1,22 @@
+{
+    "name": "aoc-23",
+    "version": "1.0.0",
+    "description": "Advent of Code 2023 solved using node w/typescript",
+    "scripts": {
+        "solve-01-a": "ts-node src/01/solve_01A.ts ./inputs/inp01.txt",
+        "solve-01-b": "ts-node src/01/solve_01B.ts ./inputs/inp01.txt",
+        "solve-02-a": "ts-node src/02/solve_02A.ts ./inputs/inp02.txt",
+        "solve-02-b": "ts-node src/02/solve_02B.ts ./inputs/inp02.txt",
+        "test": "jest",
+        "test:watch": "jest --watchAll"
+    },
+    "author": "Your Name",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/jest": "^29.5.10",
+        "jest": "^29.7.0",
+        "ts-jest": "^29.1.1",
+        "ts-node": "^10.4.0",
+        "typescript": "^4.5.4"
+    }
+}
