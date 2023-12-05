@@ -18,5 +18,5 @@ const filePath = process.argv[2] as fs.PathOrFileDescriptor;
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 
 export default fileContent
-  .split('\n')
-  .filter(Boolean); // Remove empty lines
+  .split(/\r\n|\n/)
+  .filter(Boolean) // Remove empty lines
