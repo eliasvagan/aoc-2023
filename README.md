@@ -4,7 +4,7 @@
 
 
 ## Initial setup
-
+Install dependencies w/[npm](https://www.npmjs.com/) (or equivalent)
 ```bash
 # In the repo's root dir:
 npm i
