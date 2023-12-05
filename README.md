@@ -11,7 +11,9 @@ npm i
 ```
 
 ## Run solutions
-Solve the tasks using [`npm`](https://www.npmjs.com/) (or some other js runtime)
+
+1. Add your inputs to files in `/inputs`, e.g. `inputs/inp01.txt`. 
+2. Solve the tasks using [`npm`](https://www.npmjs.com/) (or some other js runtime)
 
 ```bash
 npm run solve-01-a # Day 1 task A
@@ -21,4 +23,6 @@ npm run solve-02-b # Day 2 task B
 # etc...
 ```
 
-Input data can be changed in `/inputs`. The files are passed into their respective tasks in `package.json` `run` scripts.
+## Troubleshooting
+- Make sure the `run` scripts in `package.json` point to the right files.
+- Run tests with `npm run test` to verify the solution's integrity.
