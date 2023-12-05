@@ -8,16 +8,16 @@ export const parseCalibrationValueLexical = (value: string): number => {
   const numExpStart = /(one|two|three|four|five|six|seven|eight|nine|\d)/;
   const numExpEnd = /.*(one|two|three|four|five|six|seven|eight|nine|\d).*/;
 
-  const replacements = {
-    'one': '1',
-    'two': '2',
+  const replacements: Record<string, string> = {
+    'one':   '1',
+    'two':   '2',
     'three': '3',
-    'four': '4',
-    'five': '5',
-    'six': '6',
+    'four':  '4',
+    'five':  '5',
+    'six':   '6',
     'seven': '7',
     'eight': '8',
-    'nine': '9',
+    'nine':  '9',
   };
 
   return Number([
