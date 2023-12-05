@@ -2,7 +2,7 @@ import { CubeGame, CubeGameCriteria } from "./cubeGame";
 
 describe('CubeGame', () => {
   let game: CubeGame;
-  
+
   beforeEach(() => {
     game = new CubeGame([
       'Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green',
@@ -56,4 +56,8 @@ describe('CubeGame', () => {
 
     expect(games.length).toBe(1);
   });
+
+  it('should get the sum of minimum power', () => {
+    expect(game.minPowerSum).toBe(3);
+  })
 });

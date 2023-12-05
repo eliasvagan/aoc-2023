@@ -43,6 +43,17 @@ export class CubeGame {
   }
 
   /**
+   * Get the sum of all games' minimum power
+   * 
+   * @returns 
+   */
+  public get minPowerSum(): number {
+    return this._games.reduce((sum: number, game: Game) => (
+      sum + this._getMinPower(game)
+    ), 0);
+  }
+
+  /**
    * Parse games from a string
    * 
    * @param gameRaw 
@@ -58,5 +69,22 @@ export class CubeGame {
       return { red, green, blue };
     })
     return { id, rounds };
+  }
+
+  /**
+   * Calculate the minimum power of a game, i.e. the product of each cube colour's max count
+   * 
+   * @param game 
+   * @returns 
+   */
+  private _getMinPower(game: Game): number {
+    const powers = game.rounds.reduce((min, next) => (
+      {
+        red:   Math.max(min.red,   next.red),
+        green: Math.max(min.green, next.green),
+        blue:  Math.max(min.blue,  next.blue),
+      }
+    ), { red: 0, green: 0, blue: 0 });
+    return powers.red * powers.green * powers.blue;
   }
 }
