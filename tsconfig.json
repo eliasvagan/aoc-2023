@@ -22,9 +22,6 @@
     "noUnusedParameters": true,
     "noPropertyAccessFromIndexSignature": true,
   },
-  "paths": {
-    "utils/*" : ["./src/utils/*"]
-  },
   "include": [
     "**/*.ts"
   ],

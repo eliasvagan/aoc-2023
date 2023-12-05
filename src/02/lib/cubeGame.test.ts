@@ -58,6 +58,6 @@ describe('CubeGame', () => {
   });
 
   it('should get the sum of minimum power', () => {
-    expect(game.minPowerSum).toBe(3);
+    expect(game.minPowerSum).toBe(1620);
   })
 });

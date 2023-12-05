@@ -1,5 +1,5 @@
 import lines from '../utils/linesFromFile';
-import { CubeGame, CubeGameCriteria } from './lib/cubeGame';
+import { CubeGame, CubeGameCriteria, Game } from './lib/cubeGame';
 
 const criteria: CubeGameCriteria = {
   red:   count => count <= 12,
@@ -9,7 +9,7 @@ const criteria: CubeGameCriteria = {
 
 const game = new CubeGame(lines); 
 const goodGames = game.getGames(criteria);
-const solution = goodGames.reduce((sum, game) => sum += game.id, 0);
+const solution = goodGames.reduce((sum: number, game: Game) => sum += game.id, 0);
 
 console.log(solution);
   
