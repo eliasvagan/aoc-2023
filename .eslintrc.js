@@ -1,9 +1,17 @@
 module.exports = {
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/stylistic',
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    '@typescript-eslint'
   ],
+  root: true,
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/strict-type-checked',
+    'plugin:@typescript-eslint/stylistic-type-checked',
+  ],
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
   rules: {
     // Set indent size to 2 spaces
     'indent': ['error', 2],
