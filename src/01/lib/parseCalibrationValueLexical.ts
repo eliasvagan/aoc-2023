@@ -24,8 +24,8 @@ export const parseCalibrationValueLexical = (value: string): number => {
     value.match(numExpStart)?.at(1) ?? 'error',
     value.match(numExpEnd)?.at(1) ?? 'error',
   ].map((num: string): string => ( 
-      replacements[num as keyof typeof replacements] ?? num 
-    ))
+    replacements[num ] ?? num 
+  ))
     .join('')
   );
 };

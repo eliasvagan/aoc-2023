@@ -2,7 +2,7 @@
 export type Cube = 'red' | 'blue' | 'green';
 export type CubeGameCriteria = Record<Cube, (count: number) => boolean>;
 
-export type Game = {
+export interface Game {
   id: number;
   rounds: Record<Cube, number>[];
 }
@@ -60,8 +60,8 @@ export class CubeGame {
    * @returns
    */
   private _parseGame(gameRaw: string): Game {
-    const id: number = Number.parseInt(gameRaw.match(/Game\s(\d+)/)!.at(1)!);
-    const roundsRaw: string[] = gameRaw.match(/Game\s\d+\:\s(.*)/)!.at(1)!.split(/\;\s/);
+    const id: number = Number.parseInt(gameRaw.match(/Game\s(\d+)/)?.at(1) ?? '-1');
+    const roundsRaw: string[] = (gameRaw.match(/Game\s\d+\:\s(.*)/)?.at(1) ?? '').split(/\;\s/);
     const rounds = roundsRaw.map((roundRaw: string) => {
       const red = Number.parseInt(roundRaw.match(/(\d+)\sred/)?.at(1) ?? '0');
       const green = Number.parseInt(roundRaw.match(/(\d+)\sgreen/)?.at(1) ?? '0');

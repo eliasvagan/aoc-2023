@@ -11,11 +11,11 @@ export const parseCalibrationValueNumeric = (value: string): number => {
     throw Error(`Parsing error! "${value}" returned no number(s)!`);
   }
 
-  const numericValue: string = (nums as string[])
+  const numericValue: string = (nums )
     .filter((_num, i, all) => i === 0 || i === all.length -1)
     .reduce((acc: string, num: string, _i, all: string[]) => (
       `${acc}${num}${all.length === 1 ? num : ''}`
-      ), '');
+    ), '');
       
   return Number(numericValue);
 };
