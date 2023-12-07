@@ -9,15 +9,15 @@ export const parseCalibrationValueLexical = (value: string): number => {
   const numExpEnd = /.*(one|two|three|four|five|six|seven|eight|nine|\d).*/;
 
   const replacements: Record<string, string> = {
-    'one':   '1',
-    'two':   '2',
-    'three': '3',
-    'four':  '4',
-    'five':  '5',
-    'six':   '6',
-    'seven': '7',
     'eight': '8',
+    'five':  '5',
+    'four':  '4',
     'nine':  '9',
+    'one':   '1',
+    'seven': '7',
+    'six':   '6',
+    'three': '3',
+    'two':   '2',
   };
 
   return Number([
@@ -26,6 +26,6 @@ export const parseCalibrationValueLexical = (value: string): number => {
   ].map((num: string): string => ( 
     replacements[num ] ?? num 
   ))
-    .join('')
+    .join(''),
   );
 };

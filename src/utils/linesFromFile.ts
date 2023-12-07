@@ -19,4 +19,4 @@ const fileContent = fs.readFileSync(filePath, 'utf-8');
 
 export default fileContent
   .split(/\r\n|\n/)
-  .filter(Boolean) // Remove empty lines
+  .filter(Boolean); // Remove empty lines

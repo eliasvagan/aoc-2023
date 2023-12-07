@@ -4,13 +4,9 @@ export interface HasPosition<T> {
   value: T;
 }
 
-export type Symbol = HasPosition<string>;
-export type Part = HasPosition<number>
-
-
 export class GondolaEngine {
-  private _symbols: symbol[];
-  private _parts: Part[];
+  private _symbols: HasPosition<string>[];
+  private _parts: HasPosition<number>[];
 
   /**
    * @param schematic Scrambled engine schematic string (puzzle input)
@@ -26,34 +22,38 @@ export class GondolaEngine {
       .findOccurrences(schematic, /[^\d\r.]/g);
   }
 
-  public get parts(): Part[] {
+  public get parts(): HasPosition<number>[] {
     return this._parts;
   }
 
+  /**
+   * Calculate the total sum of gear ratios. Gear ratios are pairs of parts 
+   * whose only common neighbor is a single '*' symbol and multiplying them
+   */
   public get totalGearRatio(): number {
-    const gears = this._symbols
-      .filter(s => s.value === '*')
-      .map(gear => {
-        const neighbours: Part[] = this._parts.filter((part: Part) => {
-          const partSize = part.value.toString().length;
-          if (
-            gear.col >= part.col -1  && gear.col <= part.col + partSize && // Should there be partSize + 1?
-            gear.row >= part.row -1  && gear.row <= part.row + 1
-          ) { 
-            return true;
-          }
-          return false;
-        });
-
-        const ratio: number = neighbours.reduce((ratio, gear) => ratio * gear.value ,1);
-
-        return {
-          neighbours,
-          ratio
+    const resolveGear = (gear: HasPosition<string>): { 
+      neighbours: HasPosition<number>[];
+      ratio: number
+    } => {
+      const neighbours: HasPosition<number>[] = this._parts.filter((part: HasPosition<number>) => {
+        const partSize = part.value.toString().length;
+        if (
+          gear.col >= part.col -1  && gear.col <= part.col + partSize &&
+          gear.row >= part.row -1  && gear.row <= part.row + 1
+        ) { 
+          return true;
         }
+        return false;
       });
+      
+      const ratio: number = neighbours.reduce((ratio, gear) => ratio * gear.value ,1);
+      return { neighbours, ratio };
+    };
 
-    return gears.reduce((sum, gear) => sum + gear.ratio, 0);
+    return this._symbols
+      .filter(s => s.value === '*' )
+      .map(resolveGear)
+      .reduce((sum, gear) => sum + gear.ratio, 0);
   }
 
   /**
@@ -62,7 +62,7 @@ export class GondolaEngine {
    * 
    * @param rows 
    * @param matcher RegExp w/global flag
-   * @param parser 
+   * @param parser Optionally provide to cast value from string to compatible type
    * @returns 
    */
   private findOccurrences = <T = string>(
@@ -70,34 +70,33 @@ export class GondolaEngine {
     matcher: RegExp,
     parser?: (val: string) => T,
   ): HasPosition<T>[] => {
-
     if (!matcher.global) {
       throw Error('Matcher must include global flag!');
     }
 
     const found: HasPosition<T>[] = [];
     for (let row = 0; row < rows.length; row++) {
-      const line: string = rows[row]!;
-      let part: RegExpExecArray | null = null;
-      while ((part = matcher.exec(line)) != null) {
+      const line: string = rows[row] as string;
+      let nextMatch: RegExpExecArray | null = null;
+      while ((nextMatch = matcher.exec(line)) !== null) {
         found.push({
+          col: nextMatch.index,
           row,
-          col: part.index,
-          value: parser ? parser(part[0]) : part[0] as T
-        })
+          value: parser?.(nextMatch[0]) ?? nextMatch[0] as T,
+        });
       }
     }
     return found;
   };
 
   /**
-   * Check whether a part is valid from an array of symbols
+   * Check whether a part has a symbol within proximity
    * 
    * @param symbols 
    * @param part
    * @returns 
    */
-  private _isValidPart = (part: Part): boolean => {
+  private _isValidPart = (part: HasPosition<number>): boolean => {
     for (let i = 0; i < part.value.toString().length; i++) {
       const offsets: [ number, number ][] = [
         [  i -1, -1 ],  // Left up
@@ -116,8 +115,7 @@ export class GondolaEngine {
           sym.row === part.row + dy
         ))) return true;
       }
-      
     }
     return false;
-  }
+  };
 }

@@ -1,4 +1,4 @@
-import { CubeGame, CubeGameCriteria } from "./cubeGame";
+import { CubeGame, CubeGameCriteria } from './cubeGame';
 
 describe('CubeGame', () => {
   let game: CubeGame;
@@ -22,36 +22,36 @@ describe('CubeGame', () => {
       {
         id: 1,
         rounds: [
-          { red: 4,   green: 0,   blue: 3 },
-          { red: 1,   green: 2,   blue: 6 },
-          { red: 0,   green: 2,   blue: 0 }
-        ]
+          { blue: 3,   green: 0,   red: 4 },
+          { blue: 6,   green: 2,   red: 1 },
+          { blue: 0,   green: 2,   red: 0 },
+        ],
       },
       {
         id: 2,
         rounds: [
-          { red: 0,   green: 2,   blue: 1 },
-          { red: 1,   green: 3,   blue: 4 },
-          { red: 0,   green: 1,   blue: 1 }
-        ]
+          { blue: 1,   green: 2,   red: 0 },
+          { blue: 4,   green: 3,   red: 1 },
+          { blue: 1,   green: 1,   red: 0 },
+        ],
       },
       {
         id: 3,
         rounds: [
-          { red: 20,  green: 8,   blue: 6 },
-          { red: 4,   green: 13,  blue: 5 },
-          { red: 1,   green: 5,   blue: 0 }
-        ]
-      }
+          { blue: 6,  green: 8,   red: 20 },
+          { blue: 5,   green: 13,  red: 4 },
+          { blue: 0,   green: 5,   red: 1 },
+        ],
+      },
     ]);
   });
 
   it('should filter out games on a criteria', () => {
     const criteria: CubeGameCriteria = {
-      red:   count => count === 0 || count === 1,
-      green: count => count > 0,
       blue:  count => count < 7,
-    }
+      green: count => count > 0,
+      red:   count => count === 0 || count === 1,
+    };
     const games = game.getGames(criteria);
 
     expect(games.length).toBe(1);
@@ -59,5 +59,5 @@ describe('CubeGame', () => {
 
   it('should get the sum of minimum power', () => {
     expect(game.minPowerSum).toBe(1620);
-  })
+  });
 });

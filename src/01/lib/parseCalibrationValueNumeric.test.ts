@@ -1,7 +1,6 @@
-import { parseCalibrationValueNumeric } from "./parseCalibrationValueNumeric";
+import { parseCalibrationValueNumeric } from './parseCalibrationValueNumeric';
 
 describe('Method parseCalibrationValue', () => {
-
   const tested: (val: string) => number = parseCalibrationValueNumeric;
 
   it('should extract first and last digits from a string', () => {
@@ -15,4 +14,4 @@ describe('Method parseCalibrationValue', () => {
       expect(tested(inp)).toBe(out);
     }
   });
-})
+});

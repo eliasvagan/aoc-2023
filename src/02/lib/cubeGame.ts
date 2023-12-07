@@ -1,4 +1,3 @@
-
 export type Cube = 'red' | 'blue' | 'green';
 export type CubeGameCriteria = Record<Cube, (count: number) => boolean>;
 
@@ -8,11 +7,10 @@ export interface Game {
 }
 
 export class CubeGame {
-
   private _games: Game[];
   
   constructor(
-    gamesRaw: string[]
+    gamesRaw: string[],
   ) {
     this._games = gamesRaw.map(this._parseGame);
   }
@@ -61,13 +59,13 @@ export class CubeGame {
    */
   private _parseGame(gameRaw: string): Game {
     const id: number = Number.parseInt(gameRaw.match(/Game\s(\d+)/)?.at(1) ?? '-1');
-    const roundsRaw: string[] = (gameRaw.match(/Game\s\d+\:\s(.*)/)?.at(1) ?? '').split(/\;\s/);
+    const roundsRaw: string[] = (gameRaw.match(/Game\s\d+:\s(.*)/)?.at(1) ?? '').split(/;\s/);
     const rounds = roundsRaw.map((roundRaw: string) => {
       const red = Number.parseInt(roundRaw.match(/(\d+)\sred/)?.at(1) ?? '0');
       const green = Number.parseInt(roundRaw.match(/(\d+)\sgreen/)?.at(1) ?? '0');
       const blue = Number.parseInt(roundRaw.match(/(\d+)\sblue/)?.at(1) ?? '0');
-      return { red, green, blue };
-    })
+      return { blue, green, red };
+    });
     return { id, rounds };
   }
 
@@ -80,11 +78,11 @@ export class CubeGame {
   private _getMinPower(game: Game): number {
     const powers = game.rounds.reduce((min, next) => (
       {
-        red:   Math.max(min.red,   next.red),
-        green: Math.max(min.green, next.green),
         blue:  Math.max(min.blue,  next.blue),
+        green: Math.max(min.green, next.green),
+        red:   Math.max(min.red,   next.red),
       }
-    ), { red: 0, green: 0, blue: 0 });
+    ), { blue: 0, green: 0, red: 0 });
     return powers.red * powers.green * powers.blue;
   }
 }
