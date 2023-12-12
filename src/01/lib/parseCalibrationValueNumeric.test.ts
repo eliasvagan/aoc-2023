@@ -1,6 +1,6 @@
 import { parseCalibrationValueNumeric } from './parseCalibrationValueNumeric';
 
-describe('Method parseCalibrationValue', () => {
+describe('Method parseCalibrationValue (day 1)', () => {
   const tested: (val: string) => number = parseCalibrationValueNumeric;
 
   it('should extract first and last digits from a string', () => {

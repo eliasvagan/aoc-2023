@@ -7,19 +7,15 @@ export interface HasPosition<T> {
 export class GondolaEngine {
   private _symbols: HasPosition<string>[];
   private _parts: HasPosition<number>[];
-
   /**
    * @param schematic Scrambled engine schematic string (puzzle input)
    */
   constructor(
     schematic: string[],
   ) {
-    this._parts = this
-      .findOccurrences(schematic, /\d+/g, Number.parseInt)
-      .filter(this._isValidPart);
-
-    this._symbols = this
-      .findOccurrences(schematic, /[^\d\r.]/g);
+    this._symbols = this.findOccurrences(schematic, /[^\d\r.]/g);
+    this._parts = this.findOccurrences(schematic, /\d+/g, Number.parseInt)
+      .filter(part => this._isValidPart(part, this._symbols));
   }
 
   public get parts(): HasPosition<number>[] {
@@ -31,29 +27,32 @@ export class GondolaEngine {
    * whose only common neighbor is a single '*' symbol and multiplying them
    */
   public get totalGearRatio(): number {
-    const resolveGear = (gear: HasPosition<string>): { 
-      neighbours: HasPosition<number>[];
-      ratio: number
-    } => {
-      const neighbours: HasPosition<number>[] = this._parts.filter((part: HasPosition<number>) => {
-        const partSize = part.value.toString().length;
-        if (
-          gear.col >= part.col -1  && gear.col <= part.col + partSize &&
-          gear.row >= part.row -1  && gear.row <= part.row + 1
-        ) { 
-          return true;
-        }
-        return false;
-      });
-      
-      const ratio: number = neighbours.reduce((ratio, gear) => ratio * gear.value ,1);
-      return { neighbours, ratio };
+    /**
+     * Internal helper function
+     * @param parts 
+     * @returns 
+     */
+    const resolveGearRatio = (sym: HasPosition<string>): number => {
+      if (sym.value !== '*') return 0; // Filter bad candidate
+
+      const neighbours: HasPosition<number>[] = this.parts
+        .filter((part: HasPosition<number>) => {
+          const partSize = part.value.toString().length;
+          return (
+            sym.col >= part.col -1  && sym.col <= part.col + partSize &&
+            sym.row >= part.row -1  && sym.row <= part.row + 1
+          );
+        });
+
+      // Only allow gears with two neighbours
+      if (neighbours.length !== 2) return 0;
+
+      return neighbours.reduce((ratio: number, neigh) => ratio * neigh.value, 1);
     };
 
     return this._symbols
-      .filter(s => s.value === '*' )
-      .map(resolveGear)
-      .reduce((sum, gear) => sum + gear.ratio, 0);
+      .map(resolveGearRatio)
+      .reduce((sum, gearRatio) => sum + gearRatio, 0);
   }
 
   /**
@@ -62,7 +61,8 @@ export class GondolaEngine {
    * 
    * @param rows 
    * @param matcher RegExp w/global flag
-   * @param parser Optionally provide to cast value from string to compatible type
+   * @param parser Optionally provide to cast value from string to 
+   *               compatible type
    * @returns 
    */
   private findOccurrences = <T = string>(
@@ -96,7 +96,10 @@ export class GondolaEngine {
    * @param part
    * @returns 
    */
-  private _isValidPart = (part: HasPosition<number>): boolean => {
+  private _isValidPart = (
+    part: HasPosition<number>, 
+    symbols: HasPosition<string>[],
+  ): boolean => {
     for (let i = 0; i < part.value.toString().length; i++) {
       const offsets: [ number, number ][] = [
         [  i -1, -1 ],  // Left up
@@ -110,7 +113,7 @@ export class GondolaEngine {
       ];
       for (const [ dx, dy ] of offsets) {
         // TODO: Rewrite symbols to be an x/y-map to make this faster
-        if (this._symbols.find(sym => (
+        if (symbols.find(sym => (
           sym.col === part.col + dx && 
           sym.row === part.row + dy
         ))) return true;

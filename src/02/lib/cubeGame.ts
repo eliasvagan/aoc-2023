@@ -59,18 +59,21 @@ export class CubeGame {
    */
   private _parseGame(gameRaw: string): Game {
     const id: number = Number.parseInt(gameRaw.match(/Game\s(\d+)/)?.at(1) ?? '-1');
-    const roundsRaw: string[] = (gameRaw.match(/Game\s\d+:\s(.*)/)?.at(1) ?? '').split(/;\s/);
-    const rounds = roundsRaw.map((roundRaw: string) => {
-      const red = Number.parseInt(roundRaw.match(/(\d+)\sred/)?.at(1) ?? '0');
-      const green = Number.parseInt(roundRaw.match(/(\d+)\sgreen/)?.at(1) ?? '0');
-      const blue = Number.parseInt(roundRaw.match(/(\d+)\sblue/)?.at(1) ?? '0');
-      return { blue, green, red };
-    });
+    const roundsRaw: string = (gameRaw.match(/Game\s\d+:\s(.*)/)?.at(1) ?? '');
+    const rounds = roundsRaw
+      .split(/;\s/)
+      .map((roundRaw: string) => {
+        const red = Number.parseInt(roundRaw.match(/(\d+)\sred/)?.at(1) ?? '0');
+        const green = Number.parseInt(roundRaw.match(/(\d+)\sgreen/)?.at(1) ?? '0');
+        const blue = Number.parseInt(roundRaw.match(/(\d+)\sblue/)?.at(1) ?? '0');
+        return { blue, green, red };
+      });
     return { id, rounds };
   }
 
   /**
-   * Calculate the minimum power of a game, i.e. the product of each cube colour's max count
+   * Calculate the minimum power of a game, i.e. the product of each 
+   * cube colour's max count
    * 
    * @param game 
    * @returns 

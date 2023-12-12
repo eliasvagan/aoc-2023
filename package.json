@@ -10,6 +10,7 @@
         "solve-02-a": "ts-node src/02/solve_02A.ts ./inputs/inp02.txt",
         "solve-02-b": "ts-node src/02/solve_02B.ts ./inputs/inp02.txt",
         "solve-03-a": "ts-node src/03/solve_03A.ts ./inputs/inp03.txt",
+        "solve-03-b": "ts-node src/03/solve_03B.ts ./inputs/inp03.txt",
         "test": "jest",
         "test:watch": "jest --watchAll",
         "lint": "eslint .",

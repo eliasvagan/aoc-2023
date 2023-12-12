@@ -1,6 +1,6 @@
 import { parseCalibrationValueLexical } from './parseCalibrationValueLexical';
 
-describe('parse calibration value with lexical numbers', () => {
+describe('parse calibration value with lexical numbers (day 1)', () => {
   const tested: (val: string) => number = parseCalibrationValueLexical;
 
   it('should parse numbers correctly', () => {

@@ -23,6 +23,9 @@ module.exports = {
       'objects': 'always-multiline',
     }],
     'indent': ['warn', 2],
+    'max-len': ['warn', {
+      'code': 90,
+    }],
     'no-multiple-empty-lines': ['warn', { 
       'max': 1, 
       'maxBOF': 0, 

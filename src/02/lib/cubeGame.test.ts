@@ -1,6 +1,6 @@
 import { CubeGame, CubeGameCriteria } from './cubeGame';
 
-describe('CubeGame', () => {
+describe('CubeGame (day 2)', () => {
   let game: CubeGame;
 
   beforeEach(() => {
