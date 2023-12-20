@@ -11,26 +11,17 @@
         "solve-02-b": "ts-node src/02/solve_02B.ts ./inputs/inp02.txt",
         "solve-03-a": "ts-node src/03/solve_03A.ts ./inputs/inp03.txt",
         "solve-03-b": "ts-node src/03/solve_03B.ts ./inputs/inp03.txt",
+        "solve-07-a": "ts-node src/07/solve_07A.ts ./inputs/inp07.txt",
         "test": "jest",
         "test:watch": "jest --watchAll",
-<<<<<<< Updated upstream
         "lint": "eslint .",
         "lintf": "npm run lint -- --fix"
-=======
-        "lint": "eslint"
->>>>>>> Stashed changes
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^6.13.2",
         "@types/jest": "^29.5.10",
-<<<<<<< Updated upstream
         "eslint": "^8.55.0",
         "eslint-plugin-sort-keys-fix": "^1.1.2",
-=======
-        "@typescript-eslint/eslint-plugin": "^6.13.2",
-        "@typescript-eslint/parser": "^6.13.2",
-        "eslint": "^8.55.0",
->>>>>>> Stashed changes
         "jest": "^29.7.0",
         "ts-jest": "^29.1.1",
         "ts-node": "^10.4.0",
