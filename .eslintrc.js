@@ -15,6 +15,7 @@ module.exports = {
     'sort-keys-fix',
   ],
   rules: {
+    '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     'comma-dangle': ['warn', {
       'arrays': 'always-multiline',
       'exports': 'always-multiline',
