@@ -2,7 +2,9 @@
  * !!! IMPORTANT !!!
  * 
  * Importing from this file requires that the runtime entrypoint be 
- * provided a file path as a command-line argument
+ * provided with a file path as a command-line argument
+ * 
+ * @example `ts-node src/01/solve_01A.ts my-file.txt`
 */
 
 import fs from 'fs';
